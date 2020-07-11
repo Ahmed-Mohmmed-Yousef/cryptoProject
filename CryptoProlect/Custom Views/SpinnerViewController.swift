@@ -10,10 +10,11 @@ import UIKit
 
 class SpinnerViewController: UIViewController {
     var spinner = UIActivityIndicatorView(style: .whiteLarge)
+    var text: String?
 
     override func loadView() {
         view = UIView()
-        view.backgroundColor = .clear
+        view.backgroundColor = #colorLiteral(red: 0.1322597265, green: 0.1322893202, blue: 0.1322558224, alpha: 0.1469659675)
         
         let containerView = UIView()
         view.addSubview(containerView)
@@ -32,5 +33,16 @@ class SpinnerViewController: UIViewController {
 
         spinner.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
         spinner.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(lbl)
+        lbl.font = UIFont.systemFont(ofSize: 24, weight: .medium)
+        lbl.textColor = .black
+        lbl.textAlignment = .center
+        lbl.text = text == nil ? "loading..." : text
+        lbl.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 32).isActive = true
+        lbl.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        
     }
 }

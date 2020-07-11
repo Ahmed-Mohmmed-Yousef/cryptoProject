@@ -174,12 +174,14 @@ extension RootViewController: RootDelegate {
     }
     
     func startSend() {
+        activityIndicator.text = "sendig..."
         self.present(activityIndicator, animated: true)
         self.view.endEditing(true)
     }
     
     func endSend(success: Bool, msg: String) {
         activityIndicator.dismiss(animated: true) {
+            self.activityIndicator.text = nil
             if success{
                 self.messageView.text = ""
                 self.passwordTF.textField.text = ""
@@ -190,12 +192,14 @@ extension RootViewController: RootDelegate {
     }
     
     func startFetching() {
+        activityIndicator.text = "fetching..."
         self.present(activityIndicator, animated: true)
         self.view.endEditing(true)
     }
     
     func endFetching(success: Bool, msg: String) {
         activityIndicator.dismiss(animated: true) {
+            self.activityIndicator.text = nil
             if !success{
                 self.showAlert(msg: msg, nil)
             }

@@ -82,17 +82,17 @@ class LoginView: UIViewController {
     
     lazy var signUpCons = formView.stack([usernameTF, emailTF, passwordTF], spacing: 12)
     
-    lazy var signInBtnCons = submitView.stack([signinBtn])
+    lazy var signInBtnCons = submitView.stack([signInBtn])
 
-    lazy var signUpBtnCons = submitView.stack([signupBtn])
+    lazy var signUpBtnCons = submitView.stack([signUpBtn])
     
     lazy var submitView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
+        view.backgroundColor = .orange
         return view
     }()
     
-    lazy var signinBtn: UIButton = {
+    lazy var signInBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("Login", for: .normal)
         btn.layer.borderWidth = 0.4
@@ -103,7 +103,7 @@ class LoginView: UIViewController {
         return btn
     }()
     
-    lazy var signupBtn: UIButton = {
+    lazy var signUpBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("SignUp", for: .normal)
         btn.layer.borderWidth = 0.4
@@ -134,8 +134,8 @@ class LoginView: UIViewController {
             signInCons.activate()
             signInBtnCons.activate()
             usernameTF.isHidden = true
-            signupBtn.isHidden = true
-            signinBtn.isHidden = false
+            signUpBtn.isHidden = true
+            signInBtn.isHidden = false
             break
         case 1:
             // sign up view
@@ -144,8 +144,8 @@ class LoginView: UIViewController {
             signUpCons.activate()
             signUpBtnCons.activate()
             usernameTF.isHidden = false
-            signinBtn.isHidden = true
-            signupBtn.isHidden = false
+            signInBtn.isHidden = true
+            signUpBtn.isHidden = false
             break
         default:
             break
@@ -177,8 +177,8 @@ class LoginView: UIViewController {
         containerView.addSubview(emailTF)
         containerView.addSubview(passwordTF)
         containerView.addSubview(submitView)
-        submitView.addSubview(signinBtn)
-        submitView.addSubview(signupBtn)
+        submitView.addSubview(signInBtn)
+        submitView.addSubview(signUpBtn)
         
         scrollView.edgesToSuperview(usingSafeArea: true)
         
@@ -206,16 +206,15 @@ class LoginView: UIViewController {
         
 //        formView.stack([usernameTF, passwordTF], spacing: 12)
 //        segmentControl()
-        signInCons.activate()
-        signInBtnCons.activate()
+        
         
         submitView.topToBottom(of: formView, offset: 32)
         submitView.leadingToSuperview(offset: 32)
         submitView.trailingToSuperview(offset: 32)
         
-        signinBtn.height(45)
-        signupBtn.height(45)
-        submitView.stack([signinBtn, signupBtn], spacing: 8)
+        
+        signInCons.activate()
+        signInBtnCons.activate()
         submitView.bottomToSuperview(offset: -32.0)
         
         
@@ -225,16 +224,16 @@ class LoginView: UIViewController {
 
 extension LoginView: LoginViewModelDelegate {
     func startSign() {
+        activityIndicator.text = "checking..."
         self.present(activityIndicator, animated: true)
         self.view.endEditing(true)
     }
     
     func endSign(success: Bool, message: String) {
         activityIndicator.dismiss(animated: true) {
+            self.activityIndicator.text = nil
             if success {
-                self.showAlert(msg: message) {
-                    self.dismiss(animated: true, completion: nil)
-                }
+                self.dismiss(animated: true, completion: nil)
             } else {
                 self.showAlert(msg: message, nil)
             }
